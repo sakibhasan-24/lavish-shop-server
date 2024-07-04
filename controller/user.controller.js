@@ -1,6 +1,31 @@
 import User from "../model/user.model.js";
 import jwt from "jsonwebtoken";
-export const registerUser = async (req, res) => {};
+export const registerUser = async (req, res) => {
+  const { name, email, password } = req.body;
+  const existUser = await User.findOne({ email });
+  if (existUser) return res.status(409).json({ message: "User already exist" });
+  const user = await User.create({ name, email, password });
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+  // before create token hashed pass
+  res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 30 * 24 * 60 * 60 * 1000,
+    sameSite: "none",
+    secure: true,
+  });
+  return res.status(201).json({
+    message: "User created successfully",
+    success: true,
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    },
+  });
+};
 
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
