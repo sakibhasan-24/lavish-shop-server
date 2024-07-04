@@ -15,3 +15,13 @@ export const verifyToken = async (req, res, next) => {
     return res.status(401).json({ message: "Invalid token", success: false });
   }
 };
+
+export const verifyAdmin = async (req, res, next) => {
+  if (req.user.isAdmin) {
+    next();
+  } else {
+    return res
+      .status(401)
+      .json({ message: "You are not admin", success: false });
+  }
+};
