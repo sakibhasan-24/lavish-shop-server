@@ -54,11 +54,16 @@ const productSchema = new mongoose.Schema(
     },
     brand: {
       type: String,
-      required: true,
+      //   required: true,
     },
     quantity: {
       type: Number,
       // required: true,
+    },
+    numberOfStock: {
+      type: Number,
+      required: true,
+      default: 0,
     },
     seller: {
       type: String,
