@@ -71,3 +71,37 @@ export const logOutUser = async (req, res) => {
     success: true,
   });
 };
+
+export const getAlluser = async (req, res) => {
+  const users = await User.find();
+  try {
+    return res.status(200).json({ message: "All user", success: true, users });
+  } catch (error) {
+    return res.status(401).json({ message: error.message, success: false });
+  }
+};
+
+export const updateUser = async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findById(id);
+  if (!user) return res.status(404).json({ message: "User not found" });
+
+  try {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    if (req.body.password) user.password = req.body.password;
+    await user.save();
+    return res.status(200).json({
+      message: "User updated",
+      success: true,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+    });
+  } catch (error) {
+    return res.status(401).json({ message: error.message, success: false });
+  }
+};
