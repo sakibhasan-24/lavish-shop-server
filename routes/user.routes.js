@@ -14,7 +14,7 @@ const router = express.Router();
 // router.post('/register', userController.register);
 
 router.post("/register", registerUser);
-router.post("/login", verifyToken, loginUser);
+router.post("/login", loginUser);
 router.post("/logout", logOutUser);
 router.get("/get-all-users", verifyToken, verifyAdmin, getAlluser);
 router.put("/update/:id", verifyToken, updateUser);
