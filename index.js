@@ -4,7 +4,9 @@ import connectDb from "./connection/db.js";
 import dotenv from "dotenv";
 import productRoutes from "./routes/product.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import orderRoutes from "./routes/order.routes.js";
 import cors from "cors";
+
 dotenv.config();
 const app = express();
 app.use(express.json());
@@ -24,6 +26,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/products", productRoutes);
 app.use("/api/v1/users", userRoutes);
+app.use("/api/v1/orders", orderRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server is running at http://localhost:${PORT}`);

@@ -3,7 +3,7 @@ import User from "../model/user.model.js";
 
 export const verifyToken = async (req, res, next) => {
   const token = req.cookies.token;
-  // console.log(token);
+  // console.log("token", req.cookies.token);
   if (!token) {
     return res.status(401).json({ message: "No token", success: false });
   }
